@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Classificador de Spam</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 40px;
+            max-width: 600px;
+            margin: auto;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #0066ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Detector de Spam</h1>
+<p>Digite uma mensagem e clique em "Verificar".</p>
+
+<textarea id="message"></textarea>
+<br>
+<button onclick="checkSpam()">Verificar</button>
+
+<p id="result"></p>
+
+<script>
+async function checkSpam() {
+    const text = document.getElementById("message").value;
+
+    const response = await fetch("http://localhost:8000/predict/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+    });
+
+    const data = await response.json();
+
+    document.getElementById("result").innerText =
+        data.spam === 1 ? "🚨 Spam detectado!" : "✔ Mensagem segura";
+}
+</script>
+
+</body>
+</html>
