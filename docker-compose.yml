@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  api:
+    build: ./api
+    container_name: spam_api
+    ports:
+      - "8000:8000"
+    networks:
+      - spamnet
+
+  frontend:
+    build: ./frontend
+    container_name: spam_frontend
+    ports:
+      - "8080:80"
+    networks:
+      - spamnet
+
+networks:
+  spamnet:
+    driver: bridge
